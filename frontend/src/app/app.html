@@ -1,0 +1,47 @@
+
+<div class="app-layout">
+
+  <header class="site-header">
+    <div class="header-content">
+
+      <div class="brand">
+        <strong>CommerceApp</strong>
+        <span>Gestión de comercios</span>
+      </div>
+
+      <nav class="navigation">
+
+        <a
+          routerLink="/importar"
+          routerLinkActive="active">
+          Importar CSV
+        </a>
+
+        <a
+          routerLink="/comercios"
+          routerLinkActive="active">
+          Comercios
+        </a>
+
+        <a
+          routerLink="/procesar"
+          routerLinkActive="active">
+          Procesar
+        </a>
+
+        <a
+          routerLink="/cuarentena"
+          routerLinkActive="active">
+          Cuarentena
+        </a>
+
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

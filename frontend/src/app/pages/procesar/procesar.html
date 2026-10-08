@@ -1,0 +1,71 @@
+
+<div class="page-header">
+  <div>
+    <h1>Procesamiento de comercios</h1>
+    <p>Seleccione la fecha de proceso para validar los registros importados.</p>
+  </div>
+</div>
+
+<section class="panel">
+
+  <div class="panel-header">
+    <h2>Procesar registros</h2>
+    <p>
+      Los registros que no cumplan las validaciones
+      serán trasladados a cuarentena.
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="fechaProceso">Fecha de proceso</label>
+
+    <input
+      id="fechaProceso"
+      type="date"
+      [value]="fecha()"
+      (change)="actualizarFecha($event)"
+    />
+  </div>
+
+  <div class="panel-actions">
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="procesar()"
+      [disabled]="!fecha() || procesando()">
+
+      {{ procesando() ? 'Procesando...' : 'Procesar comercios' }}
+
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">
+      {{ error() }}
+    </div>
+  }
+
+  @if (resultado(); as datos) {
+
+    <div class="result-card">
+      <span class="result-label">Procesamiento completado</span>
+
+      <div class="result-number">
+        {{ datos.quarantinedCount }}
+      </div>
+
+      <strong>Registros enviados a cuarentena</strong>
+
+      <p>Fecha procesada: {{ datos.fecha }}</p>
+    </div>
+
+    @if (datos.quarantinedCount === 0) {
+      <div class="alert alert-info">
+        No se encontraron registros inválidos pendientes
+        para esta fecha.
+      </div>
+    }
+
+  }
+
+</section>

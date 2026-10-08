@@ -1,0 +1,86 @@
+
+<div class="page-header">
+  <div>
+    <h1>Comercios registrados</h1>
+    <p>Consulte los registros almacenados en la base de datos.</p>
+  </div>
+
+  <button
+    class="btn btn-primary"
+    type="button"
+    (click)="cargarRegistros()"
+    [disabled]="cargando()">
+    Actualizar
+  </button>
+</div>
+
+<section class="panel">
+
+  <div class="filter-bar">
+    <div class="form-group">
+      <label for="fecha">Fecha de proceso</label>
+
+      <input
+        id="fecha"
+        type="date"
+        [value]="fecha()"
+        (change)="cambiarFecha($event)"
+      />
+    </div>
+
+    <button
+      class="btn btn-secondary"
+      type="button"
+      (click)="limpiarFiltro()">
+      Limpiar filtro
+    </button>
+  </div>
+
+  @if (cargando()) {
+    <div class="empty-state">
+      Cargando comercios...
+    </div>
+  } @else if (error()) {
+    <div class="alert alert-error">
+      {{ error() }}
+    </div>
+  } @else {
+
+    <div class="summary-card">
+      <span>Total de registros</span>
+      <strong>{{ registros().length }}</strong>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Fecha de proceso</th>
+            <th>Nombre del comercio</th>
+            <th>Número de documento</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (registro of registros(); track registro.id) {
+            <tr>
+              <td>{{ registro.id }}</td>
+              <td>{{ registro.pc_processdate }}</td>
+              <td>{{ registro.pc_nomcomred || 'Sin nombre' }}</td>
+              <td>{{ registro.pc_numdoc || 'Sin documento' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty-state">
+                No se encontraron comercios.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</section>

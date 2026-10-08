@@ -1,0 +1,90 @@
+
+<div class="page-header">
+  <div>
+    <h1>Registros en cuarentena</h1>
+    <p>Consulte los comercios rechazados y los motivos de validación.</p>
+  </div>
+
+  <button
+    class="btn btn-primary"
+    type="button"
+    (click)="cargarRegistros()"
+    [disabled]="cargando()">
+    Actualizar
+  </button>
+</div>
+
+<section class="panel">
+
+  <div class="filter-bar">
+
+    <div class="form-group">
+      <label for="filtroFecha">Filtrar por fecha</label>
+
+      <input
+        id="filtroFecha"
+        type="date"
+        [value]="filtroFecha()"
+        (change)="actualizarFiltro($event)"
+      />
+    </div>
+
+    <button
+      class="btn btn-secondary"
+      type="button"
+      (click)="limpiarFiltro()">
+      Limpiar filtro
+    </button>
+
+  </div>
+
+  @if (cargando()) {
+    <div class="empty-state">Cargando registros...</div>
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else {
+
+    <div class="summary-card">
+      <span>Registros rechazados</span>
+      <strong>{{ registrosFiltrados().length }}</strong>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Comercio</th>
+            <th>Documento</th>
+            <th>Motivo del rechazo</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (registro of registrosFiltrados(); track registro.id) {
+            <tr>
+              <td>{{ registro.id }}</td>
+              <td>{{ registro.pc_processdate }}</td>
+              <td>{{ registro.pc_nomcomred || 'Sin nombre' }}</td>
+              <td>{{ registro.pc_numdoc || 'Sin documento' }}</td>
+              <td>
+                <span class="error-text">
+                  {{ registro.motivo }}
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-state">
+                No se encontraron registros.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</section>

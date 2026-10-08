@@ -1,0 +1,97 @@
+
+<div class="page-header">
+  <div>
+    <h1>Importar comercios</h1>
+    <p>Cargue un archivo CSV y revise los registros antes de importarlos.</p>
+  </div>
+</div>
+
+<section class="panel">
+
+  <div class="panel-header">
+    <h2>Seleccionar archivo</h2>
+    <p>Formato permitido: commerce_DDMMYYYY.csv</p>
+  </div>
+
+  <div class="upload-area">
+    <input
+      type="file"
+      accept=".csv,text/csv"
+      (change)="seleccionarArchivo($event)"
+    />
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">
+      {{ error() }}
+    </div>
+  }
+
+  @if (mensaje()) {
+    <div class="alert alert-success">
+      {{ mensaje() }}
+    </div>
+  }
+
+  @if (archivo()) {
+
+    <div class="file-info">
+      <div>
+        <span class="field-label">Archivo seleccionado</span>
+        <strong>{{ archivo()?.name }}</strong>
+      </div>
+
+      <div>
+        <span class="field-label">Registros encontrados</span>
+        <strong>{{ totalRegistros() }}</strong>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <h3>Vista previa</h3>
+      <span>Primeros 10 registros</span>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha de proceso</th>
+            <th>Nombre del comercio</th>
+            <th>Número de documento</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (registro of registros(); track $index) {
+            <tr>
+              <td>{{ registro.pc_processdate }}</td>
+              <td>{{ registro.pc_nomcomred || 'Sin nombre' }}</td>
+              <td>{{ registro.pc_numdoc || 'Sin documento' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel-actions">
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="importar()"
+        [disabled]="cargando() || importado()">
+
+        @if (cargando()) {
+          Importando...
+        } @else if (importado()) {
+          Archivo importado
+        } @else {
+          Importar registros
+        }
+
+      </button>
+    </div>
+
+  }
+
+</section>

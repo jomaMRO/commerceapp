@@ -1,0 +1,7 @@
+﻿
+POST http://localhost:5123/api/commerce/process
+Content-Type: application/json
+
+{
+  "processDate": "2026-10-07"
+}
